@@ -5,8 +5,13 @@ import { Text, Card, Title, Button, ActivityIndicator } from 'react-native-paper
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../hooks/useAuth';
 import { Volume } from '../../types/database';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../types/navigation';
 
-export default function HomeScreen() {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+export default function HomeScreen({ navigation }: Props) {
+  
   const { user, signOut } = useAuth();
   const [volumes, setVolumes] = useState<Volume[]>([]);
   const [loading, setLoading] = useState(true);
@@ -68,7 +73,15 @@ export default function HomeScreen() {
               <Text style={styles.cardDescription}>{item.description}</Text>
             </Card.Content>
             <Card.Actions>
-              <Button mode="contained" onPress={() => console.log('Abrir volumen', item.id)}>
+              <Button
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate('VolumeDetail', {
+                    volumeId: item.id,
+                    volumeTitle: `Vol. ${item.order_number}: ${item.title}`,
+                  })
+                }
+              >
                 Comenzar
               </Button>
             </Card.Actions>

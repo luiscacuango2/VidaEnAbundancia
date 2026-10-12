@@ -9,9 +9,12 @@ import { AuthProvider, useAuth } from './src/hooks/useAuth';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
 import HomeScreen from './src/screens/main/HomeScreen';
+import VolumeDetailScreen from './src/screens/main/VolumeDetailScreen';
+import LessonDetailScreen from './src/screens/main/LessonDetailScreen';
 import { ActivityIndicator, View } from 'react-native';
+import { RootStackParamList } from './src/types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const theme = {
   ...DefaultTheme,
@@ -36,7 +39,11 @@ function AppNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {session ? (
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="VolumeDetail" component={VolumeDetailScreen} />
+          <Stack.Screen name="LessonDetail" component={LessonDetailScreen} />
+        </>
       ) : (
         <>
           <Stack.Screen name="Login" component={LoginScreen} />
