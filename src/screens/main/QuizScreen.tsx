@@ -171,35 +171,67 @@ export default function QuizScreen({ route, navigation }: Props) {
       // ========================================
       // LOGROS ESPECÍFICOS POR LECCIÓN
       // ========================================
-      const achievementCodesByVolume: {
-        [volume: number]: { [lesson: number]: string };
-      } = {
-        // Volumen 0
-        0: {
-          1: 'vol0_first_step',
-          2: 'vol0_cordero',
-          3: 'vol0_pastor',
-          4: 'vol0_vivo',
-          5: 'vol0_abogado',
-          6: 'vol0_rey',
-        },
-        // Volumen 1
-        1: {
-          1: 'vol1_first_step',
-          2: 'vol1_seguro',
-          3: 'vol1_victorioso',
-          4: 'vol1_senor',
-          5: 'vol1_espiritu',
-          6: 'vol1_dios_habla',
-          7: 'vol1_oracion',
-          8: 'vol1_comunion',
-          9: 'vol1_iglesia',
-          10: 'vol1_testificar',
-          11: 'vol1_ordenanzas',
-          12: 'vol1_familia',
-          13: 'vol1_siguiendo',
-        },
-      };
+        const achievementCodesByVolume: {
+      [volume: number]: { [lesson: number]: string };
+    } = {
+      // Volumen 0
+      0: {
+        1: 'vol0_first_step',
+        2: 'vol0_cordero',
+        3: 'vol0_pastor',
+        4: 'vol0_vivo',
+        5: 'vol0_abogado',
+        6: 'vol0_rey',
+      },
+      // Volumen 1
+      1: {
+        1: 'vol1_first_step',
+        2: 'vol1_seguro',
+        3: 'vol1_victorioso',
+        4: 'vol1_senor',
+        5: 'vol1_espiritu',
+        6: 'vol1_dios_habla',
+        7: 'vol1_oracion',
+        8: 'vol1_comunion',
+        9: 'vol1_iglesia',
+        10: 'vol1_testificar',
+        11: 'vol1_ordenanzas',
+        12: 'vol1_familia',
+        13: 'vol1_siguiendo',
+      },
+      // Volumen 2
+      2: {
+        1: 'vol2_conociendo_dios',
+        2: 'vol2_cristo_modelo',
+        3: 'vol2_servir',
+        4: 'vol2_quien_soy',
+        5: 'vol2_guerra',
+        6: 'vol2_armadura',
+        7: 'vol2_perdonar',
+        8: 'vol2_perdoname',
+        9: 'vol2_santidad',
+        10: 'vol2_dinero',
+        11: 'vol2_puedo_debo',
+        12: 'vol2_decisiones',
+        13: 'vol2_compartir',
+        14: 'vol2_futuro',
+        15: 'vol2_mas_futuro',
+      },
+      // Volumen 3
+      3: {
+        1: 'vol3_unos_a_otros',
+        2: 'vol3_amemonos',
+        3: 'vol3_mas_amor',
+        4: 'vol3_animandonos',
+        5: 'vol3_sirviendonos',
+        6: 'vol3_soportandonos',
+        7: 'vol3_perdonandonos',
+        8: 'vol3_aceptandonos',
+        9: 'vol3_exhortandonos',
+        10: 'vol3_amonestandonos',
+        11: 'vol3_saludandonos',
+      },
+    };
 
       const volumeCodes = achievementCodesByVolume[volumeNumber];
       if (volumeCodes) {
@@ -215,6 +247,8 @@ export default function QuizScreen({ route, navigation }: Props) {
       const totalLessonsByVolume: { [volume: number]: number } = {
         0: 6,
         1: 13,
+        2: 15,
+        3: 11,
       };
 
       const requiredLessons = totalLessonsByVolume[volumeNumber];
@@ -233,10 +267,16 @@ export default function QuizScreen({ route, navigation }: Props) {
         ).length;
 
         if (completedLessonsInVolume >= requiredLessons) {
-          if (volumeNumber === 0) {
-            await unlockAchievement('vol0_complete');
-          } else if (volumeNumber === 1) {
-            await unlockAchievement('vol1_complete');
+          const completeAchievements: { [volume: number]: string } = {
+            0: 'vol0_complete',
+            1: 'vol1_complete',
+            2: 'vol2_complete',
+            3: 'vol3_complete',
+          };
+
+          const completeCode = completeAchievements[volumeNumber];
+          if (completeCode) {
+            await unlockAchievement(completeCode);
           }
         }
       }
