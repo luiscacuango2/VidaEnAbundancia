@@ -231,7 +231,7 @@ export default function QuizScreen({ route, navigation }: Props) {
         10: 'vol3_amonestandonos',
         11: 'vol3_saludandonos',
       },
-      // Volumen 4
+            // Volumen 4
       4: {
         1: 'vol4_mentiras',
         2: 'vol4_verdad',
@@ -245,6 +245,20 @@ export default function QuizScreen({ route, navigation }: Props) {
         10: 'vol4_sufrimiento',
         11: 'vol4_dinero',
         12: 'vol4_religiones',
+      },
+      // Volumen 5
+      5: {
+        1: 'vol5_tolerante',
+        2: 'vol5_criatura',
+        3: 'vol5_hipocresia',
+        4: 'vol5_machismo',
+        5: 'vol5_hombres',
+        6: 'vol5_mujer',
+        7: 'vol5_prosperidad1',
+        8: 'vol5_prosperidad2',
+        9: 'vol5_salvo',
+        10: 'vol5_dudas',
+        11: 'vol5_verdad',
       },
     };
 
@@ -265,6 +279,7 @@ export default function QuizScreen({ route, navigation }: Props) {
         2: 15,
         3: 11,
         4: 12,
+        5: 11,
       };
 
       const requiredLessons = totalLessonsByVolume[volumeNumber];
@@ -289,6 +304,7 @@ export default function QuizScreen({ route, navigation }: Props) {
             2: 'vol2_complete',
             3: 'vol3_complete',
             4: 'vol4_complete',
+            5: 'vol5_complete',
           };
 
           const completeCode = completeAchievements[volumeNumber];
