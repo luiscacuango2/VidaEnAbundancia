@@ -231,6 +231,21 @@ export default function QuizScreen({ route, navigation }: Props) {
         10: 'vol3_amonestandonos',
         11: 'vol3_saludandonos',
       },
+      // Volumen 4
+      4: {
+        1: 'vol4_mentiras',
+        2: 'vol4_verdad',
+        3: 'vol4_solo',
+        4: 'vol4_imposible',
+        5: 'vol4_yo_puedo',
+        6: 'vol4_miedo',
+        7: 'vol4_todo_mundo',
+        8: 'vol4_justicia',
+        9: 'vol4_perdon',
+        10: 'vol4_sufrimiento',
+        11: 'vol4_dinero',
+        12: 'vol4_religiones',
+      },
     };
 
       const volumeCodes = achievementCodesByVolume[volumeNumber];
@@ -249,6 +264,7 @@ export default function QuizScreen({ route, navigation }: Props) {
         1: 13,
         2: 15,
         3: 11,
+        4: 12,
       };
 
       const requiredLessons = totalLessonsByVolume[volumeNumber];
@@ -272,6 +288,7 @@ export default function QuizScreen({ route, navigation }: Props) {
             1: 'vol1_complete',
             2: 'vol2_complete',
             3: 'vol3_complete',
+            4: 'vol4_complete',
           };
 
           const completeCode = completeAchievements[volumeNumber];
