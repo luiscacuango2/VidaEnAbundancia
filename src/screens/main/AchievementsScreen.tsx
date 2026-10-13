@@ -93,7 +93,7 @@ export default function AchievementsScreen({ navigation }: Props) {
           icon="arrow-left"
           iconColor="#fff"
           size={24}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.pop(1)}
         />
         <Title style={styles.headerTitle}>Mis Logros</Title>
         <View style={{ width: 48 }} />
