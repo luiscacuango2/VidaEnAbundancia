@@ -168,25 +168,57 @@ export default function QuizScreen({ route, navigation }: Props) {
       const lessonNumber = lessonData.order_number;
       const volumeNumber = (lessonData as any).volumes?.order_number;
 
-      // Logros por lección específica (Volumen 0)
-      if (volumeNumber === 0) {
-        const achievementCodes: { [key: number]: string } = {
+      // ========================================
+      // LOGROS ESPECÍFICOS POR LECCIÓN
+      // ========================================
+      const achievementCodesByVolume: {
+        [volume: number]: { [lesson: number]: string };
+      } = {
+        // Volumen 0
+        0: {
           1: 'vol0_first_step',
           2: 'vol0_cordero',
           3: 'vol0_pastor',
           4: 'vol0_vivo',
           5: 'vol0_abogado',
           6: 'vol0_rey',
-        };
+        },
+        // Volumen 1
+        1: {
+          1: 'vol1_first_step',
+          2: 'vol1_seguro',
+          3: 'vol1_victorioso',
+          4: 'vol1_senor',
+          5: 'vol1_espiritu',
+          6: 'vol1_dios_habla',
+          7: 'vol1_oracion',
+          8: 'vol1_comunion',
+          9: 'vol1_iglesia',
+          10: 'vol1_testificar',
+          11: 'vol1_ordenanzas',
+          12: 'vol1_familia',
+          13: 'vol1_siguiendo',
+        },
+      };
 
-        const achievementCode = achievementCodes[lessonNumber];
+      const volumeCodes = achievementCodesByVolume[volumeNumber];
+      if (volumeCodes) {
+        const achievementCode = volumeCodes[lessonNumber];
         if (achievementCode) {
           await unlockAchievement(achievementCode);
         }
       }
 
-      // Logro por completar el Volumen 0
-      if (volumeNumber === 0) {
+      // ========================================
+      // LOGROS POR COMPLETAR UN VOLUMEN
+      // ========================================
+      const totalLessonsByVolume: { [volume: number]: number } = {
+        0: 6,
+        1: 13,
+      };
+
+      const requiredLessons = totalLessonsByVolume[volumeNumber];
+      if (requiredLessons) {
         const { data: progressData } = await supabase
           .from('user_progress')
           .select(`
@@ -200,12 +232,18 @@ export default function QuizScreen({ route, navigation }: Props) {
           (p: any) => p.lessons?.volume_id === lessonData.volume_id
         ).length;
 
-        if (completedLessonsInVolume >= 6) {
-          await unlockAchievement('vol0_complete');
+        if (completedLessonsInVolume >= requiredLessons) {
+          if (volumeNumber === 0) {
+            await unlockAchievement('vol0_complete');
+          } else if (volumeNumber === 1) {
+            await unlockAchievement('vol1_complete');
+          }
         }
       }
 
-      // Logro de puntuación perfecta
+      // ========================================
+      // LOGRO DE PUNTUACIÓN PERFECTA
+      // ========================================
       if (
         correctAnswersParam === totalQuestionsParam &&
         totalQuestionsParam > 0
@@ -253,27 +291,14 @@ export default function QuizScreen({ route, navigation }: Props) {
   // GUARDAR PROGRESO Y LOGROS
   // ============================================
   const finishQuiz = async () => {
-    console.log('🟡 finishQuiz iniciado');
-
-    if (!user) {
-      console.log('❌ No hay usuario autenticado');
-      return;
-    }
+    if (!user) return;
 
     const totalQuestions = quizzes.length;
     const finalCorrectAnswers = isCorrect ? correctAnswers + 1 : correctAnswers;
     const score = Math.round((finalCorrectAnswers / totalQuestions) * 100);
     const pointsEarned = finalCorrectAnswers * 10;
 
-    console.log('📊 Datos del quiz:', {
-      totalQuestions,
-      finalCorrectAnswers,
-      score,
-      pointsEarned,
-    });
-
     try {
-      // Guardar el progreso
       const { error: progressError } = await supabase
         .from('user_progress')
         .upsert(
@@ -291,7 +316,6 @@ export default function QuizScreen({ route, navigation }: Props) {
 
       if (progressError) throw progressError;
 
-      // Actualizar puntos del usuario
       const { data: profile } = await supabase
         .from('profiles')
         .select('total_points')
@@ -307,10 +331,8 @@ export default function QuizScreen({ route, navigation }: Props) {
 
       if (profileError) throw profileError;
 
-      // Verificar logros
       await checkAchievements(lessonId, finalCorrectAnswers, totalQuestions);
 
-      // Notificación final
       Alert.alert(
         '¡Felicidades! 🎉',
         `Has completado el quiz.\n\nRespuestas correctas: ${finalCorrectAnswers}/${totalQuestions}\nPuntaje: ${score}%\nPuntos ganados: +${pointsEarned}`,
@@ -326,25 +348,13 @@ export default function QuizScreen({ route, navigation }: Props) {
   // SIGUIENTE PREGUNTA
   // ============================================
   const handleNext = async () => {
-    console.log('🔵 handleNext llamado. currentIndex:', currentIndex);
-    console.log('🔵 Total quizzes:', quizzes.length);
-    console.log('🔵 isCorrect:', isCorrect);
-    console.log('🔵 correctAnswers:', correctAnswers);
-
     if (currentIndex < quizzes.length - 1) {
-      console.log('🟢 Avanzando a siguiente pregunta');
       setCurrentIndex(currentIndex + 1);
       setSelectedOption(null);
       setIsAnswered(false);
       setIsCorrect(false);
     } else {
-      console.log('🔴 Última pregunta. Llamando a finishQuiz...');
-      try {
-        await finishQuiz();
-        console.log('✅ finishQuiz completado');
-      } catch (error) {
-        console.error('❌ Error en finishQuiz:', error);
-      }
+      await finishQuiz();
     }
   };
 
