@@ -4,7 +4,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-
 import { AuthProvider, useAuth } from './src/hooks/useAuth';
 import LoginScreen from './src/screens/auth/LoginScreen';
 import RegisterScreen from './src/screens/auth/RegisterScreen';
@@ -13,6 +12,9 @@ import VolumeDetailScreen from './src/screens/main/VolumeDetailScreen';
 import LessonDetailScreen from './src/screens/main/LessonDetailScreen';
 import { ActivityIndicator, View } from 'react-native';
 import { RootStackParamList } from './src/types/navigation';
+import QuizScreen from './src/screens/main/QuizScreen';
+import ProfileScreen from './src/screens/main/ProfileScreen';
+import AchievementsScreen from './src/screens/main/AchievementsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -43,6 +45,9 @@ function AppNavigator() {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="VolumeDetail" component={VolumeDetailScreen} />
           <Stack.Screen name="LessonDetail" component={LessonDetailScreen} />
+          <Stack.Screen name="Quiz" component={QuizScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Achievements" component={AchievementsScreen} />
         </>
       ) : (
         <>

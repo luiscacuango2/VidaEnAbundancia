@@ -54,9 +54,18 @@ export default function HomeScreen({ navigation }: Props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Title style={styles.headerTitle}>¡Hola!</Title>
-        <Button mode="text" onPress={handleSignOut} textColor="#fff">
-          Salir
-        </Button>
+        <View style={{ flexDirection: 'row' }}>
+          <Button
+            mode="text"
+            onPress={() => navigation.navigate('Profile')}
+            textColor="#fff"
+          >
+            Perfil
+          </Button>
+          <Button mode="text" onPress={handleSignOut} textColor="#fff">
+            Salir
+          </Button>
+        </View>
       </View>
 
       <Text style={styles.sectionTitle}>Volúmenes Disponibles</Text>

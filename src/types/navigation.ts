@@ -1,5 +1,3 @@
-// src/types/navigation.ts
-
 export type RootStackParamList = {
   Login: undefined;
   Register: undefined;
@@ -12,4 +10,10 @@ export type RootStackParamList = {
     lessonId: string;
     lessonTitle: string;
   };
+  Quiz: {
+    lessonId: string;
+    lessonTitle: string;
+  };
+  Profile: undefined;
+  Achievements: undefined;
 };
