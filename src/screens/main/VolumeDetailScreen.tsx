@@ -138,7 +138,7 @@ export default function VolumeDetailScreen({ route, navigation }: Props) {
           icon="arrow-left"
           iconColor="#fff"
           size={24}
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate('Home')}
         />
         <Title style={styles.headerTitle} numberOfLines={1}>
           {volumeTitle}
@@ -155,9 +155,8 @@ export default function VolumeDetailScreen({ route, navigation }: Props) {
             style={[
               styles.progressBarFill,
               {
-                width: `${
-                  totalCount > 0 ? (completedCount / totalCount) * 100 : 0
-                }%`,
+                width: `${totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+                  }%`,
               },
             ]}
           />
@@ -200,6 +199,8 @@ export default function VolumeDetailScreen({ route, navigation }: Props) {
               navigation.navigate('LessonDetail', {
                 lessonId: item.id,
                 lessonTitle: item.title,
+                volumeId: volumeId,
+                volumeTitle: volumeTitle,
               })
             }
           >

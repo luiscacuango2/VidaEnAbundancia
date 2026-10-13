@@ -34,7 +34,7 @@ interface QuizWithOptions {
 }
 
 export default function QuizScreen({ route, navigation }: Props) {
-  const { lessonId, lessonTitle } = route.params;
+  const { lessonId, lessonTitle, volumeId, volumeTitle } = route.params;
   const { user } = useAuth();
 
   const [quizzes, setQuizzes] = useState<QuizWithOptions[]>([]);
@@ -171,96 +171,109 @@ export default function QuizScreen({ route, navigation }: Props) {
       // ========================================
       // LOGROS ESPECÍFICOS POR LECCIÓN
       // ========================================
-        const achievementCodesByVolume: {
-      [volume: number]: { [lesson: number]: string };
-    } = {
-      // Volumen 0
-      0: {
-        1: 'vol0_first_step',
-        2: 'vol0_cordero',
-        3: 'vol0_pastor',
-        4: 'vol0_vivo',
-        5: 'vol0_abogado',
-        6: 'vol0_rey',
-      },
-      // Volumen 1
-      1: {
-        1: 'vol1_first_step',
-        2: 'vol1_seguro',
-        3: 'vol1_victorioso',
-        4: 'vol1_senor',
-        5: 'vol1_espiritu',
-        6: 'vol1_dios_habla',
-        7: 'vol1_oracion',
-        8: 'vol1_comunion',
-        9: 'vol1_iglesia',
-        10: 'vol1_testificar',
-        11: 'vol1_ordenanzas',
-        12: 'vol1_familia',
-        13: 'vol1_siguiendo',
-      },
-      // Volumen 2
-      2: {
-        1: 'vol2_conociendo_dios',
-        2: 'vol2_cristo_modelo',
-        3: 'vol2_servir',
-        4: 'vol2_quien_soy',
-        5: 'vol2_guerra',
-        6: 'vol2_armadura',
-        7: 'vol2_perdonar',
-        8: 'vol2_perdoname',
-        9: 'vol2_santidad',
-        10: 'vol2_dinero',
-        11: 'vol2_puedo_debo',
-        12: 'vol2_decisiones',
-        13: 'vol2_compartir',
-        14: 'vol2_futuro',
-        15: 'vol2_mas_futuro',
-      },
-      // Volumen 3
-      3: {
-        1: 'vol3_unos_a_otros',
-        2: 'vol3_amemonos',
-        3: 'vol3_mas_amor',
-        4: 'vol3_animandonos',
-        5: 'vol3_sirviendonos',
-        6: 'vol3_soportandonos',
-        7: 'vol3_perdonandonos',
-        8: 'vol3_aceptandonos',
-        9: 'vol3_exhortandonos',
-        10: 'vol3_amonestandonos',
-        11: 'vol3_saludandonos',
-      },
-            // Volumen 4
-      4: {
-        1: 'vol4_mentiras',
-        2: 'vol4_verdad',
-        3: 'vol4_solo',
-        4: 'vol4_imposible',
-        5: 'vol4_yo_puedo',
-        6: 'vol4_miedo',
-        7: 'vol4_todo_mundo',
-        8: 'vol4_justicia',
-        9: 'vol4_perdon',
-        10: 'vol4_sufrimiento',
-        11: 'vol4_dinero',
-        12: 'vol4_religiones',
-      },
-      // Volumen 5
-      5: {
-        1: 'vol5_tolerante',
-        2: 'vol5_criatura',
-        3: 'vol5_hipocresia',
-        4: 'vol5_machismo',
-        5: 'vol5_hombres',
-        6: 'vol5_mujer',
-        7: 'vol5_prosperidad1',
-        8: 'vol5_prosperidad2',
-        9: 'vol5_salvo',
-        10: 'vol5_dudas',
-        11: 'vol5_verdad',
-      },
-    };
+      const achievementCodesByVolume: {
+        [volume: number]: { [lesson: number]: string };
+      } = {
+        // Volumen 0
+        0: {
+          1: 'vol0_first_step',
+          2: 'vol0_cordero',
+          3: 'vol0_pastor',
+          4: 'vol0_vivo',
+          5: 'vol0_abogado',
+          6: 'vol0_rey',
+        },
+        // Volumen 1
+        1: {
+          1: 'vol1_first_step',
+          2: 'vol1_seguro',
+          3: 'vol1_victorioso',
+          4: 'vol1_senor',
+          5: 'vol1_espiritu',
+          6: 'vol1_dios_habla',
+          7: 'vol1_oracion',
+          8: 'vol1_comunion',
+          9: 'vol1_iglesia',
+          10: 'vol1_testificar',
+          11: 'vol1_ordenanzas',
+          12: 'vol1_familia',
+          13: 'vol1_siguiendo',
+        },
+        // Volumen 2
+        2: {
+          1: 'vol2_conociendo_dios',
+          2: 'vol2_cristo_modelo',
+          3: 'vol2_servir',
+          4: 'vol2_quien_soy',
+          5: 'vol2_guerra',
+          6: 'vol2_armadura',
+          7: 'vol2_perdonar',
+          8: 'vol2_perdoname',
+          9: 'vol2_santidad',
+          10: 'vol2_dinero',
+          11: 'vol2_puedo_debo',
+          12: 'vol2_decisiones',
+          13: 'vol2_compartir',
+          14: 'vol2_futuro',
+          15: 'vol2_mas_futuro',
+        },
+        // Volumen 3
+        3: {
+          1: 'vol3_unos_a_otros',
+          2: 'vol3_amemonos',
+          3: 'vol3_mas_amor',
+          4: 'vol3_animandonos',
+          5: 'vol3_sirviendonos',
+          6: 'vol3_soportandonos',
+          7: 'vol3_perdonandonos',
+          8: 'vol3_aceptandonos',
+          9: 'vol3_exhortandonos',
+          10: 'vol3_amonestandonos',
+          11: 'vol3_saludandonos',
+        },
+        // Volumen 4
+        4: {
+          1: 'vol4_mentiras',
+          2: 'vol4_verdad',
+          3: 'vol4_solo',
+          4: 'vol4_imposible',
+          5: 'vol4_yo_puedo',
+          6: 'vol4_miedo',
+          7: 'vol4_todo_mundo',
+          8: 'vol4_justicia',
+          9: 'vol4_perdon',
+          10: 'vol4_sufrimiento',
+          11: 'vol4_dinero',
+          12: 'vol4_religiones',
+        },
+        // Volumen 5
+        5: {
+          1: 'vol5_tolerante',
+          2: 'vol5_criatura',
+          3: 'vol5_hipocresia',
+          4: 'vol5_machismo',
+          5: 'vol5_hombres',
+          6: 'vol5_mujer',
+          7: 'vol5_prosperidad1',
+          8: 'vol5_prosperidad2',
+          9: 'vol5_salvo',
+          10: 'vol5_dudas',
+          11: 'vol5_verdad',
+        },
+        // Volumen 6
+        6: {
+          1: 'vol6_reto',
+          2: 'vol6_pioneros',
+          3: 'vol6_carey',
+          4: 'vol6_como_oiran',
+          5: 'vol6_por_que_no',
+          6: 'vol6_dificil',
+          7: 'vol6_no_alcanzados',
+          8: 'vol6_comenzar',
+          9: 'vol6_una_vida',
+          10: 'vol6_recompensa',
+        },
+      };
 
       const volumeCodes = achievementCodesByVolume[volumeNumber];
       if (volumeCodes) {
@@ -280,6 +293,7 @@ export default function QuizScreen({ route, navigation }: Props) {
         3: 11,
         4: 12,
         5: 11,
+        6: 10,
       };
 
       const requiredLessons = totalLessonsByVolume[volumeNumber];
@@ -305,12 +319,36 @@ export default function QuizScreen({ route, navigation }: Props) {
             3: 'vol3_complete',
             4: 'vol4_complete',
             5: 'vol5_complete',
+            6: 'vol6_complete',
           };
 
           const completeCode = completeAchievements[volumeNumber];
           if (completeCode) {
             await unlockAchievement(completeCode);
           }
+        }
+      }
+
+      // Logro especial: Serie completa (se desbloquea al completar el Volumen 6)
+      if (volumeNumber === 6) {
+        const { data: allProgress } = await supabase
+          .from('user_progress')
+          .select(`
+                lesson_id,
+                lessons!inner(volume_id, volumes!inner(order_number))
+              `)
+          .eq('user_id', user.id)
+          .eq('status', 'completed');
+
+        const volumesCompleted = new Set(
+          (allProgress || [])
+            .map((p: any) => p.lessons?.volumes?.order_number)
+            .filter((v: number) => v !== undefined)
+        );
+
+        // Verificar que los 7 volúmenes tienen al menos 1 lección completada
+        if (volumesCompleted.size >= 7) {
+          await unlockAchievement('serie_complete');
         }
       }
 
@@ -409,7 +447,16 @@ export default function QuizScreen({ route, navigation }: Props) {
       Alert.alert(
         '¡Felicidades! 🎉',
         `Has completado el quiz.\n\nRespuestas correctas: ${finalCorrectAnswers}/${totalQuestions}\nPuntaje: ${score}%\nPuntos ganados: +${pointsEarned}`,
-        [{ text: 'Volver', onPress: () => navigation.goBack() }]
+        [
+          {
+            text: 'Volver al Volumen',
+            onPress: () =>
+              navigation.navigate('VolumeDetail', {
+                volumeId: volumeId,
+                volumeTitle: volumeTitle,
+              }),
+          },
+        ]
       );
     } catch (error) {
       console.error('Error guardando progreso:', error);
@@ -434,7 +481,7 @@ export default function QuizScreen({ route, navigation }: Props) {
   // ============================================
   // SALIR DEL QUIZ
   // ============================================
-  const handleQuit = () => {
+    const handleQuit = () => {
     Alert.alert(
       'Salir del Quiz',
       '¿Estás seguro de que quieres salir? Tu progreso no se guardará.',
@@ -443,7 +490,11 @@ export default function QuizScreen({ route, navigation }: Props) {
         {
           text: 'Salir',
           style: 'destructive',
-          onPress: () => navigation.goBack(),
+          onPress: () =>
+            navigation.navigate('VolumeDetail', {
+              volumeId: volumeId,
+              volumeTitle: volumeTitle,
+            }),
         },
       ]
     );

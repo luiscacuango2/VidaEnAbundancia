@@ -11,7 +11,7 @@ import { RootStackParamList } from '../../types/navigation';
 type Props = NativeStackScreenProps<RootStackParamList, 'LessonDetail'>;
 
 export default function LessonDetailScreen({ route, navigation }: Props) {
-  const { lessonId, lessonTitle } = route.params;
+  const { lessonId, lessonTitle, volumeId, volumeTitle } = route.params;
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -58,7 +58,12 @@ export default function LessonDetailScreen({ route, navigation }: Props) {
           icon="arrow-left"
           iconColor="#fff"
           size={24}
-          onPress={() => navigation.goBack()}
+          onPress={() =>
+            navigation.navigate('VolumeDetail', {
+              volumeId: volumeId,
+              volumeTitle: volumeTitle,
+            })
+          }
         />
         <Title style={styles.headerTitle} numberOfLines={1}>
           {lessonTitle}
@@ -97,10 +102,12 @@ export default function LessonDetailScreen({ route, navigation }: Props) {
           mode="contained"
           onPress={() =>
             navigation.navigate('Quiz', {
-                lessonId: lesson.id,
-                lessonTitle: lesson.title,
+              lessonId: lesson.id,
+              lessonTitle: lesson.title,
+              volumeId: volumeId,
+              volumeTitle: volumeTitle,
             })
-            }
+          }
           style={styles.quizButton}
           icon="pencil"
         >
